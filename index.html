@@ -27,9 +27,26 @@
       const item = document.getElementById("item").value;
       const amount = document.getElementById("amount").value;
 
+      // 表示に追加
       const li = document.createElement("li");
       li.textContent = `${date} - ${item} - ¥${amount}`;
       list.appendChild(li);
+
+      // APIに送信
+      fetch("https://your-railway-url/save", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          date: date,
+          item: item,
+          amount: amount
+        })
+      })
+      .then(res => res.json())
+      .then(data => console.log("保存成功", data))
+      .catch(err => console.error("保存エラー", err));
 
       form.reset();
     });
