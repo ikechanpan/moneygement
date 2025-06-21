@@ -56,6 +56,20 @@
       padding: 10px;
       border-radius: 6px;
     }
+    #logout-btn {
+      width: auto;
+      padding: 6px 12px;
+      background-color: #e53935;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      float: right;
+      margin-bottom: 1rem;
+    }
+    #logout-btn:hover {
+      background-color: #c62828;
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
@@ -96,22 +110,22 @@
         .catch(err => console.error("保存エラー", err));
 
         form.reset();
+      });
 
-        document.getElementById("logout-btn").addEventListener("click", async function () {
-          await supabase.auth.signOut();
-          localStorage.removeItem("access_token"); // 念のため
-          window.location.href = "index.html"; // ログインページへリダイレクト
-        });
+      document.getElementById("logout-btn").addEventListener("click", async function () {
+        await supabase.auth.signOut();
+        localStorage.removeItem("access_token");
+        window.location.href = "index.html";
       });
     }
   </script>
 </head>
 <body>
   <div class="container">
-    <h1>家計簿アプリ</h1>
     <div style="text-align: right;">
-      <button id="logout-btn" style="background-color: #e53935;">ログアウト</button>
+      <button id="logout-btn">ログアウト</button>
     </div>
+    <h1>家計簿アプリ</h1>
     <form id="expense-form">
       <label>日付:
         <input type="date" id="date" required>
