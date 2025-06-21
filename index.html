@@ -94,10 +94,7 @@
 
   <script>
     const { createClient } = supabase;
-    const client = createClient(
-      "https://rmyervgzsqiwbjtzuhix.supabase.co",
-      "YOUR_SUPABASE_ANON_KEY"
-    );
+    const client = createClient("https://rmyervgzsqiwbjtzuhix.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJteWVydmd6c3Fpd2JqdHp1aGl4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk4ODQwNDQsImV4cCI6MjA2NTQ2MDA0NH0.AHwM7DQc7G9ZLD4ZG4b7TFNCRbuMzWdIwDV4xF9E_0A");
 
     async function login() {
       const email = document.getElementById("email").value;
