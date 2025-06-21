@@ -47,22 +47,21 @@
   </div>
 
   <script>
-    const supabase = supabase.createClient("https://rmyervgzsqiwbjtzuhix.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJteWVydmd6c3Fpd2JqdHp1aGl4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk4ODQwNDQsImV4cCI6MjA2NTQ2MDA0NH0.AHwM7DQc7G9ZLD4ZG4b7TFNCRbuMzWdIwDV4xF9E_0A");
-  
+    const { createClient } = supabase;
+    const client = createClient("https://rmyervgzsqiwbjtzuhix.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJteWVydmd6c3Fpd2JqdHp1aGl4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk4ODQwNDQsImV4cCI6MjA2NTQ2MDA0NH0.AHwM7DQc7G9ZLD4ZG4b7TFNCRbuMzWdIwDV4xF9E_0A");
+
     async function login() {
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
-  
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-  
+
+      const { error } = await client.auth.signInWithPassword({ email, password });
+
       if (error) {
         document.getElementById('message').textContent = error.message;
       } else {
         window.location.href = "main.html";
       }
     }
-  
-    document.getElementById("login-button").addEventListener("click", login);
   </script>
 </body>
 </html>
