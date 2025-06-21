@@ -2,76 +2,134 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Moneygement</title>
-  <style>Add commentMore actions
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f4f6f9;
+      font-family: 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif;
+      background: linear-gradient(135deg, #cceeff, #f4f9ff);
       margin: 0;
       padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
     }
+
     .container {
-      max-width: 600px;
-      margin: 40px auto;
-      background: #fff;
+      background: #e6f0fa;
+      border-radius: 20px;
+      box-shadow: 8px 8px 16px #c0d3e2,
+                  -8px -8px 16px #ffffff;
       padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    h1, h2 {
+      max-width: 400px;
+      width: 90%;
       text-align: center;
     }
+
+    .container img {
+      width: 60px;
+      margin-bottom: 1rem;
+    }
+
+    h1, h2 {
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
     form {
       margin-bottom: 2rem;
     }
+
     label {
       display: block;
       margin-bottom: 1rem;
+      text-align: left;
+      color: #444;
     }
+
     input[type="date"], input[type="text"], input[type="number"] {
       width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      background: #e6f0fa;
+      box-shadow: inset 3px 3px 6px #c0d3e2,
+                  inset -3px -3px 6px #ffffff;
+      font-size: 1rem;
     }
+
     button {
       width: 100%;
-      padding: 10px;
-      background-color: #3f51b5;
-      color: white;
+      padding: 12px;
+      margin-top: 1rem;
       border: none;
-      border-radius: 6px;
+      border-radius: 12px;
+      background: linear-gradient(to right, #90caf9, #64b5f6);
+      color: white;
+      font-size: 1rem;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
       cursor: pointer;
+      transition: 0.3s ease;
     }
+
     button:hover {
-      background-color: #303f9f;
+      background: linear-gradient(to right, #64b5f6, #42a5f5);
     }
+
     ul {
-      list-style-type: none;
+      list-style: none;
       padding: 0;
+      text-align: left;
     }
+
     li {
-      background: #eef1f5;
+      background: #f0f4f8;
       margin-bottom: 8px;
       padding: 10px;
-      border-radius: 6px;
+      border-radius: 12px;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.05);
     }
+
     #logout-btn {
-      width: auto;
-      padding: 6px 12px;
-      background-color: #e53935;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      float: right;
-      margin-bottom: 1rem;
+      background-color: #e57373;
+      margin-top: 1rem;
     }
+
     #logout-btn:hover {
-      background-color: #c62828;
+      background-color: #ef5350;
     }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>家計簿アプリ</h1>
+
+    <form id="expense-form">
+      <label>日付:
+        <input type="date" id="date" required>
+      </label>
+      <label>内容:
+        <input type="text" id="item" required>
+      </label>
+      <label>金額:
+        <input type="number" id="amount" required>
+      </label>
+      <button type="submit">保存</button>
+    </form>
+
+    <h2>支出一覧</h2>
+    <ul id="expense-list"></ul>
+
+    <button id="logout-btn">ログアウト</button>
+  </div>
+
   <script>
     const { createClient } = supabase;
     const client = createClient(
@@ -81,21 +139,19 @@
 
     window.onload = async function () {
       const { data: { session } } = await client.auth.getSession();
-
       if (!session) {
         window.location.href = "index.html";
         return;
       }
 
       const accessToken = session.access_token;
-      console.log("Supabase access token:", accessToken); 
-      
+      console.log("Supabase access token:", accessToken);
+
       const form = document.getElementById("expense-form");
       const list = document.getElementById("expense-list");
 
       form.addEventListener("submit", function (e) {
         e.preventDefault();
-
         const date = document.getElementById("date").value;
         const item = document.getElementById("item").value;
         const amount = document.getElementById("amount").value;
@@ -123,30 +179,7 @@
         await client.auth.signOut();
         window.location.href = "index.html";
       });
-    }
+    };
   </script>
-</head>
-<body>
-  <div class="container">
-    <div style="text-align: right;">
-      <button id="logout-btn">ログアウト</button>
-    </div>
-    <h1>家計簿アプリ</h1>
-    <form id="expense-form">
-      <label>日付:
-        <input type="date" id="date" required>
-      </label>
-      <label>内容:
-        <input type="text" id="item" required>
-      </label>
-      <label>金額:
-        <input type="number" id="amount" required>
-      </label>
-      <button type="submit">保存</button>
-    </form>
-
-    <h2>登録済みの支出</h2>
-    <ul id="expense-list"></ul>
-  </div>
 </body>
 </html>
