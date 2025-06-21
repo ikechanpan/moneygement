@@ -2,9 +2,74 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>家計簿アプリ</title>
-  <style>
-    /* スタイル省略（そのままでOK） */
+  <title>Moneygement</title>
+  <style>Add commentMore actions
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6f9;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    form {
+      margin-bottom: 2rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 1rem;
+    }
+    input[type="date"], input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #3f51b5;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #303f9f;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      background: #eef1f5;
+      margin-bottom: 8px;
+      padding: 10px;
+      border-radius: 6px;
+    }
+    #logout-btn {
+      width: auto;
+      padding: 6px 12px;
+      background-color: #e53935;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      float: right;
+      margin-bottom: 1rem;
+    }
+    #logout-btn:hover {
+      background-color: #c62828;
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
