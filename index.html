@@ -1,63 +1,111 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ログイン - 家計簿アプリ</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f4f6f9;
+      margin: 0;
+      font-family: 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif;
+      background: linear-gradient(135deg, #cceeff, #f4f9ff);
       display: flex;
-      justify-content: center;
       align-items: center;
-      height: 100vh;
+      justify-content: center;
+      min-height: 100vh;
     }
+
     .login-box {
-      background: white;
+      background: #e6f0fa;
       padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      width: 300px;
+      border-radius: 20px;
+      box-shadow: 8px 8px 16px #c0d3e2,
+                  -8px -8px 16px #ffffff;
+      width: 90%;
+      max-width: 360px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-    input, button {
-      width: 100%;
-      padding: 10px;
+
+    .login-box img {
+      width: 80px;
       margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
     }
-    button {
-      background-color: #3f51b5;
-      color: white;
+
+    .login-box h2 {
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
       border: none;
+      border-radius: 12px;
+      background: #e6f0fa;
+      box-shadow: inset 3px 3px 6px #c0d3e2,
+                  inset -3px -3px 6px #ffffff;
+      font-size: 1rem;
+      outline: none;
     }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 1rem;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(to right, #90caf9, #64b5f6);
+      color: white;
+      font-size: 1rem;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
     button:hover {
-      background-color: #303f9f;
+      background: linear-gradient(to right, #64b5f6, #42a5f5);
+    }
+
+    #message {
+      color: #d32f2f;
+      margin-top: 1rem;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
   <div class="login-box">
     <h2>ログイン</h2>
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Password">
+    <input type="email" id="email" placeholder="メールアドレス" />
+    <input type="password" id="password" placeholder="パスワード" />
     <button onclick="login()">ログイン</button>
-    <p id="message" style="color: red;"></p>
+    <p id="message"></p>
   </div>
 
   <script>
     const { createClient } = supabase;
-    const client = createClient("https://rmyervgzsqiwbjtzuhix.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJteWVydmd6c3Fpd2JqdHp1aGl4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk4ODQwNDQsImV4cCI6MjA2NTQ2MDA0NH0.AHwM7DQc7G9ZLD4ZG4b7TFNCRbuMzWdIwDV4xF9E_0A");
+    const client = createClient(
+      "https://rmyervgzsqiwbjtzuhix.supabase.co",
+      "YOUR_SUPABASE_ANON_KEY"
+    );
 
     async function login() {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
       const { error } = await client.auth.signInWithPassword({ email, password });
 
       if (error) {
-        document.getElementById('message').textContent = error.message;
+        document.getElementById("message").textContent = error.message;
       } else {
         window.location.href = "main.html";
       }
