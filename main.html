@@ -73,30 +73,34 @@
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
-    const supabase = supabase.createClient("https://YOUR_PROJECT.supabase.co", "YOUR_PUBLIC_API_KEY");
+    const supabase = supabase.createClient("https://rmyervgzsqiwbjtzuhix.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJteWVydmd6c3Fpd2JqdHp1aGl4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk4ODQwNDQsImV4cCI6MjA2NTQ2MDA0NH0.AHwM7DQc7G9ZLD4ZG4b7TFNCRbuMzWdIwDV4xF9E_0A");
 
     window.onload = async function () {
-      const session = await supabase.auth.getSession();
-      const accessToken = session.data.session?.access_token;
+      const { data: { session } } = await supabase.auth.getSession();
 
-      if (!accessToken) {
+      if (!session) {
         window.location.href = "index.html"; // ログインページへリダイレクト
         return;
       }
+
+      const accessToken = session.access_token;
 
       const form = document.getElementById("expense-form");
       const list = document.getElementById("expense-list");
 
       form.addEventListener("submit", function (e) {
         e.preventDefault();
+
         const date = document.getElementById("date").value;
         const item = document.getElementById("item").value;
         const amount = document.getElementById("amount").value;
 
+        // 表示に追加
         const li = document.createElement("li");
         li.textContent = `${date} - ${item} - ¥${amount}`;
         list.appendChild(li);
 
+        // APIにJWTを付与してPOST送信
         fetch("https://moneygement-backend-production.up.railway.app/save", {
           method: "POST",
           headers: {
@@ -105,16 +109,15 @@
           },
           body: JSON.stringify({ date, item, amount })
         })
-        .then(res => res.json())
-        .then(data => console.log("保存成功", data))
-        .catch(err => console.error("保存エラー", err));
+          .then(res => res.json())
+          .then(data => console.log("保存成功", data))
+          .catch(err => console.error("保存エラー", err));
 
         form.reset();
       });
 
       document.getElementById("logout-btn").addEventListener("click", async function () {
         await supabase.auth.signOut();
-        localStorage.removeItem("access_token");
         window.location.href = "index.html";
       });
     }
