@@ -96,6 +96,12 @@
         .catch(err => console.error("保存エラー", err));
 
         form.reset();
+
+        document.getElementById("logout-btn").addEventListener("click", async function () {
+          await supabase.auth.signOut();
+          localStorage.removeItem("access_token"); // 念のため
+          window.location.href = "index.html"; // ログインページへリダイレクト
+        });
       });
     }
   </script>
